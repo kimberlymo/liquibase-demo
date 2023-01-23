@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/localdb
+    username: localuser
+    password: localpass
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    # back in the days when we let JPA set up the database,
+    # we used `create` here. now `validate` at least makes
+    # sure our liquibase configuration is not too wrong
+    hibernate.ddl-auto: validate

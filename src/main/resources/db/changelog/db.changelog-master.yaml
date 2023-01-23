@@ -1,0 +1,175 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Johanna Doe
+      comment: create table called articles
+      changes:
+        - createTable:
+            tableName: article
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: text
+                  type: varchar(255)
+      rollback:
+        - dropTable:
+            tableName: article
+  - changeSet:
+      id: 2
+      author: Bobby Ross
+      comment: change name of table to articles
+      changes:
+        - renameTable:
+            newTableName: articles
+            oldTableName: article
+      rollback:
+        - renameTable:
+            newTableName: article
+            oldTableName: articles
+  - changeSet:
+      id: 3
+      author: Bobby Ross
+      comment: add two new fields called created_ts and version in articles
+      changes:
+        - addColumn:
+            tableName: articles
+            columns:
+              - column:
+                  name: created_ts
+                  type: datetime
+              - column:
+                  name: version
+                  type: bigint
+      rollback:
+        - dropColumn:
+            columns:
+              - column:
+                  name: created_ts
+              - column:
+                  name: version
+            tableName: articles
+  - changeSet:
+      id: 4
+      author: Bobby Ross
+      comment: make field text from articles bigger
+      changes:
+        - modifyDataType:
+            columnName: text
+            newDataType: varchar(511)
+            tableName: articles
+      rollback:
+        - modifyDataType:
+            columnName: text
+            newDataType: varchar(255)
+            tableName: articles
+  - changeSet:
+      id: 5
+      author: Bobby Ross
+      comment: add default values to fields created_ts and version
+      changes:
+        - addDefaultValue:
+            columnDataType: bigint
+            columnName: version
+            defaultValue: 1
+            tableName: articles
+        - addDefaultValue:
+            columnDataType: datetime
+            columnName: created_ts
+            defaultValueComputed: CURRENT_TIMESTAMP
+            tableName: articles
+      rollback:
+        - dropDefaultValue:
+            columnDataType: bigint
+            columnName: version
+            tableName: articles
+        - dropDefaultValue:
+            columnDataType: datetime
+            columnName: created_ts
+            tableName: articles
+  - changeSet:
+      id: 6
+      author: Bobby Ross
+      comment: generate default value for articles id
+      changes:
+        - addDefaultValue:
+            columnDataType: uuid
+            columnName: id
+            defaultValueComputed: gen_random_uuid()
+            tableName: articles
+      rollback:
+        - dropDefaultValue:
+            columnDataType: uuid
+            columnName: id
+            tableName: articles
+  - changeSet:
+      id: 7
+      author: Bobby Ross
+      comment: add commentEntity with foreign key relation to article
+      changes:
+        - createTable:
+            tableName: comments
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: text
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: article_id
+                  type: uuid
+                  constraints:
+                    foreignKeyName: fk_articles_comments
+                    references: articles(id)
+      rollback:
+        - dropTable:
+            tableName: comments
+  - changeSet:
+      id: 8
+      author: Bobby Ross
+      comment: add sample data for tables articles and comments
+      changes:
+        - insert:
+            tableName: articles
+            columns:
+              - column:
+                  name: id
+                  value: a3ba2ff2-0586-4ef0-8619-6fb4720120ed
+              - column:
+                  name: title
+                  value: Liquibase
+              - column:
+                  name: text
+                  value: Liquibase is cool :)
+        - insert:
+            tableName: comments
+            columns:
+              - column:
+                  name: text
+                  value: Me too
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: article_id
+                  value: a3ba2ff2-0586-4ef0-8619-6fb4720120ed
+      rollback:
+        - delete:
+            tableName: articles
+            where: id='a3ba2ff2-0586-4ef0-8619-6fb4720120ed'
+        - delete:
+            tableName: comments
+            where: article_id='a3ba2ff2-0586-4ef0-8619-6fb4720120ed'
