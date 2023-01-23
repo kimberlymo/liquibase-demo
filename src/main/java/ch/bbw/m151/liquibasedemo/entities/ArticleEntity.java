@@ -23,6 +23,8 @@ public class ArticleEntity {
     private String title;
     @Column
     private String text;
+    @Column(name = "category_id")
+    private String category;
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdTs;

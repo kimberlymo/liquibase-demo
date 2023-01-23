@@ -173,3 +173,45 @@ databaseChangeLog:
         - delete:
             tableName: comments
             where: article_id='a3ba2ff2-0586-4ef0-8619-6fb4720120ed'
+  - changeSet:
+      id: 9
+      author: Bobby Ross
+      comment: try to add index if it does not exist
+      preConditions:
+        - onFail: WARN
+        - not:
+          - indexExists:
+              indexName: idx_title
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  descending: true
+                  name: title
+            indexName: idx_title
+            tableName: articles
+  - changeSet:
+      id: 10
+      author: Bobby Ross
+      comment: try foreign key constraints only on DB
+      changes:
+        - createTable:
+            tableName: category
+            columns:
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: description
+                  type: varchar(255)
+        - addColumn:
+            tableName: articles
+            columns:
+              - column:
+                  name: category_id
+                  type: varchar(50)
+                  constraints:
+                    foreignKeyName: fk_article_category
+                    references: category(name)

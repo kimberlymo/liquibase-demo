@@ -1,6 +1,6 @@
 package ch.bbw.m151.liquibasedemo.entities;
 
-/*import lombok.Getter;
+import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
@@ -16,4 +16,3 @@ public class CategoryEntity {
     private String name;
     private String description;
 }
-*/
