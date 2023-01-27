@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 10
+      author: Bobby Ross
+      comment: try foreign key constraints only on DB
+      changes:
+        - createTable:
+            tableName: category
+            columns:
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: description
+                  type: varchar(255)
+        - addColumn:
+            tableName: articles
+            columns:
+              - column:
+                  name: category_id
+                  type: varchar(50)
+                  constraints:
+                    foreignKeyName: fk_article_category
+                    references: category(name)

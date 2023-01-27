@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 7
+      author: Bobby Ross
+      comment: add commentEntity with foreign key relation to article
+      changes:
+        - createTable:
+            tableName: comments
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: text
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: article_id
+                  type: uuid
+                  constraints:
+                    foreignKeyName: fk_articles_comments
+                    references: articles(id)
+      rollback:
+        - dropTable:
+            tableName: comments

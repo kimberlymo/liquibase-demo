@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: Bobby Ross
+      comment: change name of table to articles
+      changes:
+        - renameTable:
+            newTableName: articles
+            oldTableName: article
+      rollback:
+        - renameTable:
+            newTableName: article
+            oldTableName: articles

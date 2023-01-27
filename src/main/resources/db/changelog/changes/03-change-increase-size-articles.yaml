@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: Bobby Ross
+      comment: make field text from articles bigger
+      changes:
+        - modifyDataType:
+            columnName: text
+            newDataType: varchar(511)
+            tableName: articles
+      rollback:
+        - modifyDataType:
+            columnName: text
+            newDataType: varchar(255)
+            tableName: articles

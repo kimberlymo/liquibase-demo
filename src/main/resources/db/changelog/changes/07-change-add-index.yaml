@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: 9
+      author: Bobby Ross
+      comment: try to add index if it does not exist
+      preConditions:
+        - onFail: WARN
+        - not:
+            - indexExists:
+                indexName: idx_title
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  descending: true
+                  name: title
+            indexName: idx_title
+            tableName: articles

@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: Bobby Ross
+      comment: add default values to fields created_ts and version
+      changes:
+        - addDefaultValue:
+            columnDataType: bigint
+            columnName: version
+            defaultValue: 1
+            tableName: articles
+        - addDefaultValue:
+            columnDataType: datetime
+            columnName: created_ts
+            defaultValueComputed: CURRENT_TIMESTAMP
+            tableName: articles
+      rollback:
+        - dropDefaultValue:
+            columnDataType: bigint
+            columnName: version
+            tableName: articles
+        - dropDefaultValue:
+            columnDataType: datetime
+            columnName: created_ts
+            tableName: articles
+  - changeSet:
+      id: 6
+      author: Bobby Ross
+      comment: generate default value for articles id
+      changes:
+        - addDefaultValue:
+            columnDataType: uuid
+            columnName: id
+            defaultValueComputed: gen_random_uuid()
+            tableName: articles
+      rollback:
+        - dropDefaultValue:
+            columnDataType: uuid
+            columnName: id
+            tableName: articles

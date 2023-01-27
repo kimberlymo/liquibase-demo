@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: Bobby Ross
+      comment: add two new fields called created_ts and version in articles
+      changes:
+        - addColumn:
+            tableName: articles
+            columns:
+              - column:
+                  name: created_ts
+                  type: datetime
+              - column:
+                  name: version
+                  type: bigint
+      rollback:
+        - dropColumn:
+            columns:
+              - column:
+                  name: created_ts
+              - column:
+                  name: version
+            tableName: articles

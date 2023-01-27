@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: 8
+      author: Bobby Ross
+      comment: add sample data for tables articles and comments
+      changes:
+        - insert:
+            tableName: articles
+            columns:
+              - column:
+                  name: id
+                  value: a3ba2ff2-0586-4ef0-8619-6fb4720120ed
+              - column:
+                  name: title
+                  value: Liquibase
+              - column:
+                  name: text
+                  value: Liquibase is cool :)
+        - insert:
+            tableName: comments
+            columns:
+              - column:
+                  name: text
+                  value: Me too
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: article_id
+                  value: a3ba2ff2-0586-4ef0-8619-6fb4720120ed
+      rollback:
+        - delete:
+            tableName: articles
+            where: id='a3ba2ff2-0586-4ef0-8619-6fb4720120ed'
+        - delete:
+            tableName: comments
+            where: article_id='a3ba2ff2-0586-4ef0-8619-6fb4720120ed'
